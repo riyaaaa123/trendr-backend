@@ -21,6 +21,7 @@ class ProductPhoto(models.Model):
 
 
 class Wishlist(models.Model):
+    name=models.CharField(max_length=200,default="general")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="wishlist")
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     added_at = models.DateTimeField(auto_now_add=True)
