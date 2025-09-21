@@ -1,3 +1,6 @@
+import uuid
+from datetime import timedelta
+from django.utils import timezone
 from django.db import models
 from User.models import User
 
@@ -31,3 +34,19 @@ class Wishlist(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.user.name}"
+
+def default_expiry():
+    return timezone.now() + timedelta(days=2)
+
+class WishlistShare(models.Model):
+    wishlist = models.ForeignKey(Wishlist, on_delete=models.CASCADE, related_name="shares")
+    shared_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    share_code = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField(default=default_expiry)  # <- use function here
+
+    def is_expired(self):
+        return timezone.now() > self.expires_at
+
+    def __str__(self):
+        return f"{self.wishlist.name} shared by {self.shared_by.name}"

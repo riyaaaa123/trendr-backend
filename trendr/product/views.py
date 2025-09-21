@@ -1,9 +1,11 @@
+from django.utils import timezone
+import uuid
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from User.models import User
-from .models import Product, ProductPhoto, Wishlist
+from .models import Product, ProductPhoto, Wishlist,WishlistShare
 from .serializers import ProductSerializer, ProductPhotoSerializer, WishlistSerializer
 
 
@@ -101,7 +103,7 @@ class WishlistViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=["GET"], url_path="names")
     def get_wishlist_names(self, request):
-    
+
         username = request.query_params.get("username")
         product_id = request.query_params.get("product_id")
 
@@ -125,5 +127,45 @@ class WishlistViewSet(viewsets.ModelViewSet):
         return Response(result)
 
 
+    @action(detail=False, methods=["POST"], url_path="create-shared-wishlist")
+    def create_shared_wishlist(self, request):
 
-            
+        username = request.data.get("username")
+        wishlist_name = request.data.get("wishlist_name")
+
+        if not username or not wishlist_name:
+            return Response({"error": "username and wishlist_name are required"}, status=400)
+
+        try:
+            user = User.objects.get(name=username)
+            wishlist = Wishlist.objects.get(name=wishlist_name, user=user)
+        except User.DoesNotExist:
+            return Response({"error": "User not found"}, status=404)
+        except Wishlist.DoesNotExist:
+            return Response({"error": "Wishlist not found"}, status=404)
+
+        share = WishlistShare.objects.create(
+            wishlist=wishlist,
+            shared_by=user,
+            share_code=uuid.uuid4()
+        )
+
+        return Response({"share_code": str(share.share_code)}, status=201)
+
+
+    @action(detail=False, methods=["GET"], url_path="view-shared-wishlist")
+    def view_shared_wishlist(self, request):
+        share_code = request.query_params.get("share_code")
+        if not share_code:
+            return Response({"error": "share_code is required"}, status=400)
+
+        try:
+            share = WishlistShare.objects.get(share_code=share_code, expires_at__gte=timezone.now())
+        except WishlistShare.DoesNotExist:
+            return Response({"error": "Share not found or expired"}, status=404)
+
+        wishlist = share.wishlist
+        serializer = WishlistSerializer(wishlist)
+        data=serializer.data
+        data["shared_by"] = share.shared_by.name
+        return Response(data)
