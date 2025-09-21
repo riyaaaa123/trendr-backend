@@ -10,8 +10,17 @@ from User.models import User
 
 class VideoViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
-    queryset = Video.objects.all().order_by("-created_at")
     serializer_class = VideoSerializer
+    
+    def get_queryset(self):
+        """
+        Override to filter by uploader (username) if ?username=riya is passed.
+        """
+        queryset = Video.objects.all().order_by("-created_at")
+        username = self.request.query_params.get("username")
+        if username:
+            queryset = queryset.filter(uploader__name=username)
+        return queryset
 
     def get_serializer_class(self):
         return VideoSerializer
