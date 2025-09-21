@@ -1,1 +1,1 @@
-# trendr-backend
+# Meesho Dice Hackathon Project – Backend
