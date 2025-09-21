@@ -11,6 +11,8 @@ This project is the backend for a **Meesho app** aimed at enhancing the shopping
 - Enable users to interact with products via swipe gestures (like/reject).
 - Maintain a leaderboard for most liked Reel.
 
+--- 
+
 ## Features
 
 ### 1. Personalized and Shareable Wishlists
@@ -58,17 +60,44 @@ This project is the backend for a **Meesho app** aimed at enhancing the shopping
 
 ---
 
----
-
 ## Getting Started
 
 ### 1. Clone the repository
 
-bash
+```bash
 git clone https://github.com/riyaaaa123/trendr-backend.git
 cd trendr-backend
+```
 
 ### 2. Create virtual environment
-
-python -m venv venv
+```bash
+# macOS / Linux
+python3 -m venv venv
 source venv/bin/activate
+
+# Windows
+python -m venv venv
+venv\Scripts\activate
+```
+
+### 3. Install all dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Apply database migrate 
+```bash
+python manage.py migrate
+```
+
+### 5. Create SuperUser(optional - for admin access)
+```bash
+python manage.py createsuperuser
+```
+
+### 6. Run Server 
+```bash
+python manage.py runserver
+```
+
+The backend will be available at http://localhost:8000/.
