@@ -43,7 +43,7 @@ class WishlistShare(models.Model):
     shared_by = models.ForeignKey(User, on_delete=models.CASCADE)
     share_code = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    expires_at = models.DateTimeField(default=default_expiry)  # <- use function here
+    expires_at = models.DateTimeField(default=default_expiry) 
 
     def is_expired(self):
         return timezone.now() > self.expires_at
