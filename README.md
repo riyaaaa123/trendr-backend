@@ -1,8 +1,16 @@
 # Meesho Dice Hackathon Project – Backend
 
+### Team Members :
+- Bhumika Bachchan
+-  Riya Jindal
+-  Yukta Agrawal
+
 ## Project Overview
 
-This project is the backend for a **Meesho app** aimed at enhancing the shopping and social experience for users and influencers.
+This project is the backend for **Meesho app** aimed at enhancing the shopping and social experience for users and influencers.
+
+<img width="1096" height="766" alt="image" src="https://github.com/user-attachments/assets/03c73fd8-355f-4903-87e0-e9aa38909b3e" />
+
 
 ## Key goals
 
@@ -15,27 +23,21 @@ This project is the backend for a **Meesho app** aimed at enhancing the shopping
 
 ## Features
 
-### 1. Personalized and Shareable Wishlists
-
-- Users can create multiple wishlists for specific occasions (birthdays, festivals, etc.).
-- Wishlists can be shared with other users.
-- Backend supports CRUD operations for wishlists and ensures proper product-user association.
-
-### 2. Influencer Reels with Product Tagging
-
-- Influencers can upload reels showcasing products.
-- Products can be tagged and viewed within reels for easy access.
-- Tracks likes for engagement metrics.
-
-### 3. Swipe-Based Product Interaction
-
-- Users can swipe left to reject a product or swipe right to add it to a wishlist(dating-app like feel).
-- Backend updates the user's preferences and wishlists accordingly.
-
-### 4. Leaderboard for Top Reels
-
-- Calculates weekly top reels based on engagement metrics (likes).
-- Provides real-time leaderboard updates.
+### 1. Influencer Reels with Product Tagging
+ - Influencers on Meesho can upload reels showcasing products available on the platform.
+ - Products are tagged within the reel, allowing users to explore and purchase items seamlessly.
+ - Engagement metrics such as likes and shares, are tracked to provide influencers with actionable insights. 
+### 2. Swipe-Based Product Interaction
+ - Users can swipe left to dismiss a product or swipe right to add it to their wishlist, creating an engaging, gamified shopping journey within Meesho.
+ -  The backend updates wishlists and user preferences in real-time, enabling dynamic product recommendations based on interactions.
+### 3. Dashboard and reward system
+ - Influencers have access to a dedicated dashboard that displays these metrics, helping them optimize content and engagement.
+ - Additionally, a coin/reward system incentivizes influencers based on the reel performance, motivating higher-quality content creation.
+### 4. Personalized and Shareable Wishlists
+ - Allows the users to create multiple wishlists within Meesho for specific occasions- birthdays, festivals, or events.
+ - Each wishlist can be shared with friends or family, enabling collaborative shopping experiences.
+### 5. Leaderboard for Top Reels
+ - A weekly leaderboard highlights top-performing reels based on engagement metrics, encouraging community participation and rewarding influencers.
 
 ---
 
