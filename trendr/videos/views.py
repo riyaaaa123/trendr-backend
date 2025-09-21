@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from .models import Video
-from .serializers import VideoSerializer, VideoDetailSerializer
+from .serializers import VideoSerializer
 
 
 class VideoViewSet(viewsets.ModelViewSet):
@@ -10,15 +10,13 @@ class VideoViewSet(viewsets.ModelViewSet):
     serializer_class = VideoSerializer
 
     def get_serializer_class(self):
-        if self.action in ["retrieve", "products"]:
-            return VideoDetailSerializer
         return VideoSerializer
 
     @action(detail=True, methods=["get"])
     def products(self, request, pk=None):
         """Custom endpoint: /api/videos/<id>/products/ → products in this video"""
         video = self.get_object()
-        serializer = VideoDetailSerializer(video)
+        serializer = VideoSerializer(video)
         return Response(serializer.data["products"])
 
     @action(detail=True, methods=["post"])
