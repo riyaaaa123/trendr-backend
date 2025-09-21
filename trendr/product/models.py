@@ -21,10 +21,13 @@ class ProductPhoto(models.Model):
 
 
 class Wishlist(models.Model):
-    name=models.CharField(max_length=200,default="general")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="wishlist")
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="wishlists")
+    products = models.ManyToManyField(Product, blank=True, related_name="wishlists")
     added_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ("user", "product")
+        unique_together = ("user", "name")
+
+    def __str__(self):
+        return f"{self.name} - {self.user.name}"

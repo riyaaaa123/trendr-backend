@@ -35,8 +35,8 @@ class ProductSerializer(serializers.ModelSerializer):
         return instance
 
 class WishlistSerializer(serializers.ModelSerializer):
-    product = ProductSerializer(read_only=True)
+    products = ProductSerializer(many=True,read_only=True)
 
     class Meta:
         model = Wishlist
-        fields = ["id", "user", "product", "added_at"]
+        fields = ["id","name", "user", "products", "added_at"]
