@@ -1,11 +1,13 @@
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
 from .models import Video
 from .serializers import VideoSerializer
 
 
 class VideoViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
     queryset = Video.objects.all().order_by("-created_at")
     serializer_class = VideoSerializer
 

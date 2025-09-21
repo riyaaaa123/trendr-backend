@@ -1,5 +1,6 @@
 from django.utils import timezone
 import uuid
+from rest_framework.permissions import AllowAny
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -10,19 +11,23 @@ from .serializers import ProductSerializer, ProductPhotoSerializer, WishlistSeri
 
 
 class ProductViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
 
 class ProductPhotoViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
     queryset = ProductPhoto.objects.all()
     serializer_class = ProductPhotoSerializer
 
 
 class WishlistViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
     queryset = Wishlist.objects.all()
     serializer_class = WishlistSerializer
 class WishlistViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
     queryset = Wishlist.objects.all()
     serializer_class = WishlistSerializer
 
