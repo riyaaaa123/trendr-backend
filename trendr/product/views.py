@@ -25,7 +25,7 @@ class WishlistViewSet(viewsets.ModelViewSet):
     serializer_class = WishlistSerializer
 
     def get_queryset(self):
-       
+
         username = self.request.query_params.get("username")
         if username:
             try:
@@ -61,7 +61,7 @@ class WishlistViewSet(viewsets.ModelViewSet):
         serializer = WishlistSerializer(wishlist)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    @action(detail=False, methods=["POST"], url_path="addproduct")
+    @action(detail=False, methods=["POST"], url_path="add-product")
     def add_product(self, request, pk=None):
 
         product_id = request.data.get("product_id")
@@ -98,3 +98,47 @@ class WishlistViewSet(viewsets.ModelViewSet):
         wishlists = self.get_queryset()
         serializer = WishlistSerializer(wishlists, many=True)
         return Response(serializer.data)
+
+    @action(detail=False, methods=["GET"], url_path="names")
+    def get_wishlist_names(self, request):
+
+        username = request.query_params.get("username")
+        product_id = request.query_params.get("product_id")
+
+        if not username:
+            return Response({"error": "username is required"}, status=400)
+
+        try:
+            user = User.objects.get(name=username)
+        except User.DoesNotExist:
+            return Response({"error": "User not found"}, status=404)
+
+        wishlists = Wishlist.objects.filter(user=user)
+        result = []
+
+        for wl in wishlists:
+            has_product = False
+            if product_id:
+                has_product = wl.products.filter(id=product_id).exists()
+            result.append({"id": wl.id, "name": wl.name, "hasProduct": has_product})
+
+        return Response(result)
+
+
+
+        username = request.query_params.get("username")
+        product_id = request.query_params.get("product_id")
+
+        if not username or not product_id:
+            return Response({"error": "username and product_id are required"}, status=400)
+
+        try:
+            user = User.objects.get(name=username)
+            product = Product.objects.get(id=product_id)
+        except User.DoesNotExist:
+            return Response({"error": "User not found"}, status=404)
+        except Product.DoesNotExist:
+            return Response({"error": "Product not found"}, status=404)
+
+        exists = Wishlist.objects.filter(user=user, products=product).exists()
+        return Response({"wishlisted": exists})
