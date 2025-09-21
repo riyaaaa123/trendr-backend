@@ -101,7 +101,7 @@ class WishlistViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=["GET"], url_path="names")
     def get_wishlist_names(self, request):
-
+    
         username = request.query_params.get("username")
         product_id = request.query_params.get("product_id")
 
@@ -126,19 +126,4 @@ class WishlistViewSet(viewsets.ModelViewSet):
 
 
 
-        username = request.query_params.get("username")
-        product_id = request.query_params.get("product_id")
-
-        if not username or not product_id:
-            return Response({"error": "username and product_id are required"}, status=400)
-
-        try:
-            user = User.objects.get(name=username)
-            product = Product.objects.get(id=product_id)
-        except User.DoesNotExist:
-            return Response({"error": "User not found"}, status=404)
-        except Product.DoesNotExist:
-            return Response({"error": "Product not found"}, status=404)
-
-        exists = Wishlist.objects.filter(user=user, products=product).exists()
-        return Response({"wishlisted": exists})
+            
